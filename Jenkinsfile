@@ -1,4 +1,4 @@
-pipeline {
+/*pipeline {
     agent any
 
     tools {
@@ -28,3 +28,50 @@ pipeline {
         }
     }
 }
+*/
+pipeline {
+    agent any
+
+    tools {
+        maven 'Maven_3'
+        jdk 'JDK21'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'master', url: 'https://github.com/mannatvij/Calculator.git'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                bat 'mvn clean compile'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                bat 'mvn test'
+            }
+        }
+
+
+
+        stage('Package') {
+            steps {
+                bat 'mvn package'
+            }
+        }
+
+
+    post {
+        success {
+            echo 'Pipeline executed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+
