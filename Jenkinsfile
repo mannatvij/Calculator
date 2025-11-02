@@ -63,7 +63,7 @@ pipeline {
                 bat 'mvn package'
             }
         }
-
+    }
 
     post {
         success {
