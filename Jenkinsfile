@@ -53,7 +53,8 @@ pipeline {
         always {
             echo ' Cleaning up temporary processes...'
             // Gracefully stop running app before cleaning workspace
-           bat 'cmd /c taskkill /F /IM java.exe || echo "No Java process to stop"'
+           bat 'cmd /c C:\\Windows\\System32\\taskkill.exe /F /IM java.exe || echo "No Java process to stop"'
+
 
         }
 
