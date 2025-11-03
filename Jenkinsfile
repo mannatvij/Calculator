@@ -33,6 +33,12 @@ pipeline {
                 bat 'mvn package'
             }
         }
+        stage('Deploy') {
+            steps {
+                bat 'mvn spring-boot:run'
+            }
+        }
+
     }
 
     post {
