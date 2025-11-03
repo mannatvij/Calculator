@@ -14,54 +14,55 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                echo '🔄 Checking out code...'
+                echo ' Checking out code...'
                 git branch: 'master', url: 'https://github.com/mannatvij/Calculator.git'
             }
         }
 
         stage('Build') {
             steps {
-                echo '⚙️ Building project...'
+                echo ' Building project...'
                 bat 'mvn clean compile -q'
             }
         }
 
         stage('Test') {
             steps {
-                echo '🧪 Running tests...'
+                echo ' Running tests...'
                 bat 'mvn test -q'
             }
         }
 
         stage('Package') {
             steps {
-                echo '📦 Packaging application...'
+                echo ' Packaging application...'
                 bat 'mvn package -q'
             }
         }
 
         stage('Deploy') {
             steps {
-                echo '🚀 Starting Spring Boot app on port 8081...'
+                echo ' Starting Spring Boot app on port 8081...'
                 bat 'start /B mvn spring-boot:run -Dserver.port=%SERVER_PORT%'
-                echo '✅ Application started successfully at http://localhost:8081'
+                echo ' Application started successfully at http://localhost:8081'
             }
         }
     }
 
     post {
         always {
-            echo '🧹 Cleaning up temporary processes...'
+            echo ' Cleaning up temporary processes...'
             // Gracefully stop running app before cleaning workspace
-            bat 'taskkill /F /IM java.exe || echo "No Java process to stop"'
+           bat 'cmd /c taskkill /F /IM java.exe || echo "No Java process to stop"'
+
         }
 
         success {
-            echo '🎉 Pipeline executed successfully!'
+            echo ' Pipeline executed successfully!'
         }
 
         failure {
-            echo '💥 Pipeline failed!'
+            echo ' Pipeline failed!'
         }
     }
 }
