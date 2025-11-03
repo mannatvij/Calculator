@@ -44,6 +44,11 @@ environment {
     }
 
     post {
+
+        always {
+            cleanWs()
+        }
+
         success {
             echo 'Pipeline executed successfully!'
         }
