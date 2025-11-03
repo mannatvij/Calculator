@@ -1,4 +1,3 @@
-
 pipeline {
     agent any
 
@@ -6,55 +5,66 @@ pipeline {
         maven 'Maven3'
         jdk 'JDK21'
     }
-environment {
-    MAVEN_OPTS = "-Dmaven.repo.local=.m2/repository"
-}
+
+    environment {
+        // Cache dependencies locally for faster builds
+        MAVEN_OPTS = "-Dmaven.repo.local=${WORKSPACE}/.m2/repository"
+    }
+
     stages {
         stage('Checkout') {
             steps {
+                echo ' Checking out code...'
                 git branch: 'master', url: 'https://github.com/mannatvij/Calculator.git'
             }
         }
 
-        stage('Build') {
-            steps {
-                bat 'mvn clean compile'
+        stage('Build & Test') {
+            parallel {
+                stage('Build') {
+                    steps {
+                        echo ' Building project...'
+                        bat 'mvn clean compile -DskipTests'
+                    }
+                }
+                stage('Test') {
+                    steps {
+                        echo ' Running tests...'
+                        bat 'mvn test'
+                    }
+                }
             }
         }
-
-        stage('Test') {
-            steps {
-                bat 'mvn test'
-            }
-        }
-
-
 
         stage('Package') {
             steps {
-                bat 'mvn package'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                bat 'mvn spring-boot:run'
+                echo ' Packaging application...'
+                bat 'mvn package -DskipTests'
             }
         }
 
+        stage('Deploy') {
+            steps {
+                echo ' Deploying application...'
+                // Run app in background, so Jenkins doesn’t hang forever
+                bat 'start /B mvn spring-boot:run'
+                echo ' Application started successfully!'
+            }
+        }
     }
 
     post {
-
         always {
+            echo ' Cleaning workspace...'
             cleanWs()
         }
 
         success {
-            echo 'Pipeline executed successfully!'
+            echo ' Pipeline executed successfully!'
         }
+
         failure {
-            echo 'Pipeline failed!'
+            echo ' Pipeline failed!'
         }
     }
 }
-
