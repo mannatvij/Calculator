@@ -39,10 +39,10 @@ pipeline {
 
         stage('Deploy') {
                    steps {
-                       echo '🚀 Deploying application...'
-                       // Run the packaged JAR directly instead of re-running Spring Boot plugin
+                       echo ' Deploying application...'
+
                        bat 'start /B java -jar target/calculator_app-1.0-SNAPSHOT.jar --server.port=9090'
-                       echo '🌐 Application deployed at http://localhost:8082'
+                       echo ' Application deployed at http://localhost:9090'
                    }
                }
     }
