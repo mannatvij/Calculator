@@ -21,9 +21,9 @@ pipeline {
             }
         }
 
-        stage('Build & Unit Test') {
+        stage('Build & Test') {
             steps {
-                echo "Running build and unit tests..."
+                echo "Running build and tests..."
                 bat 'mvn test -T 1C'
             }
         }
