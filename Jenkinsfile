@@ -38,11 +38,13 @@ pipeline {
 
 
         stage('Deploy') {
-            steps {
-                echo " Deploying application (simulated)..."
-                bat 'echo "App deployed successfully to local server!"'
-            }
-        }
+                   steps {
+                       echo '🚀 Deploying application...'
+                       // Run the packaged JAR directly instead of re-running Spring Boot plugin
+                       bat 'start /B java -jar target/calculator_app-1.0-SNAPSHOT.jar --server.port=8082'
+                       echo '🌐 Application deployed at http://localhost:8082'
+                   }
+               }
     }
 
     post {

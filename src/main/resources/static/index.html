@@ -78,7 +78,7 @@
 </head>
 <body>
 <div class="container">
-    <h1>🧮 Smart Calculator</h1>
+    <h1> Smart Calculator</h1>
     <input type="number" id="num1" placeholder="Enter first number">
     <input type="number" id="num2" placeholder="Enter second number">
     <br>
@@ -95,7 +95,7 @@
         const b = document.getElementById("num2").value;
 
         if (a === '' || b === '') {
-            document.getElementById("result").innerText = '⚠️ Please enter both numbers.';
+            document.getElementById("result").innerText = '⚠ Please enter both numbers.';
             return;
         }
 
@@ -104,7 +104,7 @@
             const result = await response.text();
             document.getElementById("result").innerText = `Result: ${result}`;
         } catch (error) {
-            document.getElementById("result").innerText = '❌ Something went wrong!';
+            document.getElementById("result").innerText = ' Something went wrong!';
         }
     }
 </script>
